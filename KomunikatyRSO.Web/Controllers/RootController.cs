@@ -2,8 +2,8 @@
 
 namespace KomunikatyRSO.Web.Controllers
 {
-    [Route("")]
-    public abstract class RootController : Controller
+    [Route("", Name = "default")]
+    public class RootController : Controller
     {
         public RootController()
         {
