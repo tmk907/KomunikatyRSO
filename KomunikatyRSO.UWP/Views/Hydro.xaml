@@ -1,0 +1,94 @@
+﻿<local:BasePage
+    x:Class="KomunikatyRSOUWP.Views.Hydro"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KomunikatyRSOUWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:KomunikatyRSOUWP.ViewModels"
+    xmlns:data="using:KomunikatyRSO.Shared.Api.Models"
+    xmlns:mycontrols="using:KomunikatyRSOUWP.Controls"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:HydroViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <Page.Resources>
+        <DataTemplate x:Name="NewsTemplate1" x:DataType="data:RSONews">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Text="{x:Bind Title}"
+                    Style="{StaticResource NewsTitleStyle}"/>
+                <TextBlock
+                    Grid.Row="1"
+                    Text="{x:Bind UpdatedAt}"
+                    Style="{StaticResource NewsDateStyle}"/>
+                <TextBlock 
+                    Grid.Row="2"
+                    Text="{x:Bind Shortcut}"
+                    Style="{StaticResource NewsBodyStyle}"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource AppAccentBrush}">
+            <TextBlock 
+                Text="{x:Bind ViewModel.Header, Mode=OneWay}" 
+                Style="{StaticResource HeaderTextBlockStyle}"/>
+            <ComboBox 
+                HorizontalAlignment="Right"
+                ItemsSource="{x:Bind ViewModel.SelectedProvinces, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.SelectedProvince, Mode=TwoWay}" 
+                Style="{StaticResource FilterComboBoxStyle}"/>
+        </Grid>
+        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.Loading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <ProgressRing
+                IsActive="{x:Bind ViewModel.Loading, Mode=OneWay}"
+                Width="80"
+                Height="80"
+                Foreground="{StaticResource AppAccentBrush}"
+                Visibility="{x:Bind ViewModel.Loading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
+        </Grid>
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.Loading, Converter={StaticResource BoolToInvertedVisibilityConverter}, Mode=OneWay}">
+            <TextBlock 
+                Visibility="{x:Bind ViewModel.Error, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                TextWrapping="WrapWholeWords"/>
+            <mycontrols:AlternatingRowListView
+                Visibility="{x:Bind ViewModel.Error, Converter={StaticResource BoolToInvertedVisibilityConverter}, Mode=OneWay}"
+                ItemsSource="{x:Bind ViewModel.Newses, Mode=OneWay}"
+                ItemTemplate="{StaticResource NewsTemplate1}"
+                EvenRowBackground="{ThemeResource ListViewItemBackgroundSecond}"
+                OddRowBackground="{ThemeResource ListViewItemBackgroundNormal}"
+                SelectionMode="None"
+                IsItemClickEnabled="True"
+                ItemClick="{x:Bind ViewModel.ItemClicked}"
+                ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
+                >
+                <mycontrols:AlternatingRowListView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </mycontrols:AlternatingRowListView.ItemContainerTransitions>
+                <mycontrols:AlternatingRowListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </mycontrols:AlternatingRowListView.ItemsPanel>
+            </mycontrols:AlternatingRowListView>
+        </Grid>
+    </Grid>
+</local:BasePage>

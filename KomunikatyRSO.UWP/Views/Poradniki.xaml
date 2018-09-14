@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="KomunikatyRSOUWP.Views.Poradniki"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KomunikatyRSOUWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource AppAccentBrush}">
+            <TextBlock 
+                Text="Poradniki" 
+                Style="{StaticResource HeaderTextBlockStyle}"/>
+        </Grid>
+        <WebView x:Name="WebView"
+                 Grid.Row="1"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"/>
+    </Grid>
+
+</Page>
