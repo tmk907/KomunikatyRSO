@@ -18,10 +18,10 @@ namespace KomunikatyRSOUWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            bool isLight = SettingsService.Instance.AppTheme == ApplicationTheme.Light;
+            bool isLight = AppSettings.Instance.AppTheme == ApplicationTheme.Light;
             Application.Current.RequestedTheme = isLight ? ApplicationTheme.Light : ApplicationTheme.Dark;
-            bool isUpdated = SettingsUpdater.UpdateAppSettings();
-            RegisterBGTask(isUpdated);
+            bool isAppUpdated = SettingsUpdater.UpdateAppSettings();
+            RegisterBGTask(isAppUpdated);
         }
 
         public static NavigationService NavigationService { get; protected set; }
@@ -158,7 +158,7 @@ namespace KomunikatyRSOUWP
 
         private void ApplyThemes()
         {
-            bool isLight = SettingsService.Instance.AppTheme == ApplicationTheme.Light;
+            bool isLight = AppSettings.Instance.AppTheme == ApplicationTheme.Light;
             ThemeHelper.ApplyAppTheme(isLight);
         }
 

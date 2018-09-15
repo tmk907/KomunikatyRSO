@@ -31,23 +31,23 @@ namespace KomunikatyRSOUWP.ViewModels
             Version = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
             DateUpdated = Package.Current.InstalledDate.ToString("d-MM-yyyy");
             StringBuilder sb = new StringBuilder();
-            foreach(var cat in SettingsService.Instance.SelectedCategories.Where(c=>c.IsSelected))
+            foreach(var cat in AppSettings.Instance.SelectedCategories.Where(c=>c.IsSelected))
             {
                 sb.Append(cat.Name).Append(", ");
             }
-            if (SettingsService.Instance.SelectedCategories.Where(c => c.IsSelected).Count() > 0) sb.Remove(sb.Length - 2, 2);
+            if (AppSettings.Instance.SelectedCategories.Where(c => c.IsSelected).Count() > 0) sb.Remove(sb.Length - 2, 2);
             SelectedCategories = sb.ToString();
             sb.Clear();
-            foreach(var prov in SettingsService.Instance.SelectedProvinces.Where(p=>p.IsSelected))
+            foreach(var prov in AppSettings.Instance.SelectedProvinces.Where(p=>p.IsSelected))
             {
                 sb.Append(prov.Name).Append(", ");
             }
-            if (SettingsService.Instance.SelectedProvinces.Where(p => p.IsSelected).Count() > 0) sb.Remove(sb.Length - 2, 2);
+            if (AppSettings.Instance.SelectedProvinces.Where(p => p.IsSelected).Count() > 0) sb.Remove(sb.Length - 2, 2);
             SelectedProvinces = sb.ToString();
-            UserId = SettingsService.Instance.UserId;
-            Other = SettingsService.Instance.IsChannelUpdated ? "" : "c:false ";
-            Other += SettingsService.Instance.IsPreferencesUpdated ? "" : "p:false ";
-            Other += string.Format("{0}.{1}", version.Major, version.Minor) == SettingsService.Instance.PreviousAppVersion ? "" : SettingsService.Instance.PreviousAppVersion;
+            UserId = AppSettings.Instance.UserId;
+            Other = AppSettings.Instance.IsChannelUpdated ? "" : "c:false ";
+            Other += AppSettings.Instance.IsPreferencesUpdated ? "" : "p:false ";
+            Other += string.Format("{0}.{1}", version.Major, version.Minor) == AppSettings.Instance.PreviousAppVersion ? "" : AppSettings.Instance.PreviousAppVersion;
         }
 
         override public string ToString()
@@ -65,7 +65,7 @@ namespace KomunikatyRSOUWP.ViewModels
 
     public class SettingsPageViewModel : INotifyPropertyChanged
     {
-        private PushClient pushService = new PushClient();
+        private PushNotificationsService pushService = new PushNotificationsService();
 
         public SettingsPageViewModel()
         {
@@ -82,7 +82,7 @@ namespace KomunikatyRSOUWP.ViewModels
             else
             {
                 SelectedProvinces.Add(new SelectionProvince(ProvincesInfo.All));
-                _settings = SettingsService.Instance;
+                _settings = AppSettings.Instance;
                 var list = _settings.SelectedProvinces;
                 if (list.Count == 0)
                 {
@@ -121,7 +121,7 @@ namespace KomunikatyRSOUWP.ViewModels
             }
         }
     
-        SettingsService _settings;
+        AppSettings _settings;
 
         public bool UseLightThemeButton
         {

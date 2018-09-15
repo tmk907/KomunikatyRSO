@@ -25,7 +25,7 @@ namespace KomunikatyRSOUWP.ViewModels
             }
             SelectedProvinces.Add("Wszystkie");
             SelectedProvinces.Add("Z ustawień");
-            if (SettingsService.Instance.SelectedProvinces.Where(p=>p.IsSelected).Count() == 0)
+            if (AppSettings.Instance.SelectedProvinces.Where(p=>p.IsSelected).Count() == 0)
             {
                 SelectedProvince = SelectedProvinces.Find(s => s.Equals("Wszystkie"));
             }
@@ -64,7 +64,7 @@ namespace KomunikatyRSOUWP.ViewModels
             }
             else if (value == "Z ustawień")
             {
-                var ust = SettingsService.Instance.SelectedProvinces.Where(p => p.IsSelected).ToList();
+                var ust = AppSettings.Instance.SelectedProvinces.Where(p => p.IsSelected).ToList();
                 Newses = allNewses.Where(n => ust.Exists(p => p.Slug.Equals(n.Provinces.Province.SlugName))).ToList();
             }
             else

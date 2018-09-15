@@ -24,7 +24,7 @@ namespace KomunikatyRSOUWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.RequestedTheme = SettingsService.Instance.AppTheme.ToElementTheme();
+            this.RequestedTheme = AppSettings.Instance.AppTheme.ToElementTheme();
             viewModel.OnNavigatedToAsync(e.Parameter);
         }
     }

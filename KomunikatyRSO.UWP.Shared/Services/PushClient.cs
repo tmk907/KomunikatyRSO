@@ -56,9 +56,9 @@ namespace KomunikatyRSO.UWP.Shared.Services
         private async Task RequestPNChannelAsync()
         {
             System.Diagnostics.Debug.WriteLine("RequestPNChannel");
-            DateTimeOffset prevChannelExpirationTime = SettingsService.Instance.NotificationChannelExpirationTime;
-            string prevChannelUri = SettingsService.Instance.NotificationChannelUri;
-            var userId = SettingsService.Instance.UserId;
+            DateTimeOffset prevChannelExpirationTime = AppSettings.Instance.NotificationChannelExpirationTime;
+            string prevChannelUri = AppSettings.Instance.NotificationChannelUri;
+            var userId = AppSettings.Instance.UserId;
             //if (userId == "-1") return;
             bool isChannelOK = await IsChannelOK(userId);
 
@@ -68,7 +68,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
                 {
                     System.Diagnostics.Debug.WriteLine("RequestPNChannel channel not expired");
 
-                    if (!SettingsService.Instance.IsChannelUpdated)
+                    if (!AppSettings.Instance.IsChannelUpdated)
                     {
                         System.Diagnostics.Debug.WriteLine("RequestPNChannel update channel");
                         await SendChannelToServerAsync(prevChannelUri);
@@ -87,8 +87,8 @@ namespace KomunikatyRSO.UWP.Shared.Services
                 if (prevChannelUri != channel.Uri)
                 {
                     await SendChannelToServerAsync(channel.Uri);
-                    SettingsService.Instance.NotificationChannelExpirationTime = channel.ExpirationTime;
-                    SettingsService.Instance.NotificationChannelUri = channel.Uri;
+                    AppSettings.Instance.NotificationChannelExpirationTime = channel.ExpirationTime;
+                    AppSettings.Instance.NotificationChannelUri = channel.Uri;
                 }
             }
             catch (Exception ex)
@@ -107,20 +107,20 @@ namespace KomunikatyRSO.UWP.Shared.Services
             Dictionary<string, string> data = new Dictionary<string, string>();
             data.Add("ChannelUri", channelUri);
 
-            string userId = SettingsService.Instance.UserId;
+            string userId = AppSettings.Instance.UserId;
             if (userId == "-1")
             {
                 response = await SendNewChannelAsync(data);
 
                 if (response.Contains("ChannelUpdated"))
                 {
-                    SettingsService.Instance.IsChannelUpdated = true;
+                    AppSettings.Instance.IsChannelUpdated = true;
                     string newUserId = response.Split('!')[1];
-                    SettingsService.Instance.UserId = newUserId;
+                    AppSettings.Instance.UserId = newUserId;
                 }
                 else
                 {
-                    SettingsService.Instance.IsChannelUpdated = false;
+                    AppSettings.Instance.IsChannelUpdated = false;
                 }
             }
             else
@@ -130,11 +130,11 @@ namespace KomunikatyRSO.UWP.Shared.Services
 
                 if (response.Contains("ChannelUpdated"))
                 {
-                    SettingsService.Instance.IsChannelUpdated = true;
+                    AppSettings.Instance.IsChannelUpdated = true;
                 }
                 else
                 {
-                    SettingsService.Instance.IsChannelUpdated = false;
+                    AppSettings.Instance.IsChannelUpdated = false;
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
         public async Task CheckUpdatePreferencesAsync()
         {
             System.Diagnostics.Debug.WriteLine("CheckUpdatePreferences");
-            bool updated = SettingsService.Instance.IsPreferencesUpdated;
+            bool updated = AppSettings.Instance.IsPreferencesUpdated;
             System.Diagnostics.Debug.WriteLine("CheckUpdatePreferences " + updated);
             if (!updated)
             {
@@ -153,16 +153,16 @@ namespace KomunikatyRSO.UWP.Shared.Services
         public async Task UpdateUserPreferencesAsync()
         {
             System.Diagnostics.Debug.WriteLine("UpdateUserPreferences");
-            var userId = SettingsService.Instance.UserId;
+            var userId = AppSettings.Instance.UserId;
             if (userId == "-1") return;
 
             Dictionary<string, string> data = new Dictionary<string, string>();
             data.Add("UserId", userId.ToString());
-            foreach (var province in SettingsService.Instance.SelectedProvinces.Where(p => p.IsSelected))
+            foreach (var province in AppSettings.Instance.SelectedProvinces.Where(p => p.IsSelected))
             {
                 data.Add(province.Slug, "1");
             }
-            foreach (var category in SettingsService.Instance.SelectedCategories.Where(p => p.IsSelected))
+            foreach (var category in AppSettings.Instance.SelectedCategories.Where(p => p.IsSelected))
             {
                 data.Add(category.Slug, "1");
             }
@@ -176,12 +176,12 @@ namespace KomunikatyRSO.UWP.Shared.Services
             if (response.Contains("PreferencesUpdated"))
             {
                 System.Diagnostics.Debug.WriteLine("PreferencesUpdated true");
-                SettingsService.Instance.IsPreferencesUpdated = true;
+                AppSettings.Instance.IsPreferencesUpdated = true;
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine("PreferencesUpdated false");
-                SettingsService.Instance.IsPreferencesUpdated = false;
+                AppSettings.Instance.IsPreferencesUpdated = false;
             }
         }
 
@@ -194,7 +194,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
 
         private async Task<bool> IsChannelOK(string id)
         {
-            var userId = SettingsService.Instance.UserId;
+            var userId = AppSettings.Instance.UserId;
             if (userId == "-1") return false;
             Dictionary<string, string> data = new Dictionary<string, string>();
             data.Add("UserId", id);

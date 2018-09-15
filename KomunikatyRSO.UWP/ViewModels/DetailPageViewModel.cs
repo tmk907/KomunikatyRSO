@@ -71,7 +71,7 @@ namespace KomunikatyRSOUWP.ViewModels
 
         private async Task LoadNewsAsync(int id)
         {
-            var newses = SettingsService.Instance.NewNewses;
+            var newses = AppSettings.Instance.NewNewses;
             var newNews =  newses.Where(n => n.Id.Equals(id)).FirstOrDefault();
             if (newNews == null)
             {
