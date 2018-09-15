@@ -35,27 +35,27 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
 
             if (user.ModificationDate > command.ModificationDate) return;
 
-            user.Dolnoslaskie = command.Preferences.Provinces.Dolnoslaskie;
-            user.KujawskoPomorskie = command.Preferences.Provinces.KujawskoPomorskie;
-            user.Lodzkie = command.Preferences.Provinces.Lodzkie;
-            user.Lubelskie = command.Preferences.Provinces.Lubelskie;
-            user.Lubuskie = command.Preferences.Provinces.Lubuskie;
-            user.Malopolskie = command.Preferences.Provinces.Malopolskie;
-            user.Mazowieckie = command.Preferences.Provinces.Mazowieckie;
-            user.Opolskie = command.Preferences.Provinces.Opolskie;
-            user.Podkarpackie = command.Preferences.Provinces.Podkarpackie;
-            user.Podlaskie = command.Preferences.Provinces.Podlaskie;
-            user.Pomorskie = command.Preferences.Provinces.Pomorskie;
-            user.Slaskie = command.Preferences.Provinces.Slaskie;
-            user.Swietokrzyskie = command.Preferences.Provinces.Swietokrzyskie;
-            user.WarminskoMazuskie = command.Preferences.Provinces.WarminskoMazuskie;
-            user.Wielkopolskie = command.Preferences.Provinces.Wielkopolskie;
-            user.Zachodniopomorskie = command.Preferences.Provinces.Zachodniopomorskie;
+            user.Dolnoslaskie = command.Preferences.Provinces[ProvinceSlug.Dolnoslaskie];
+            user.KujawskoPomorskie = command.Preferences.Provinces[ProvinceSlug.KujawskoPomorskie];
+            user.Lodzkie = command.Preferences.Provinces[ProvinceSlug.Lodzkie];
+            user.Lubelskie = command.Preferences.Provinces[ProvinceSlug.Lubelskie];
+            user.Lubuskie = command.Preferences.Provinces[ProvinceSlug.Lubuskie];
+            user.Malopolskie = command.Preferences.Provinces[ProvinceSlug.Malopolskie];
+            user.Mazowieckie = command.Preferences.Provinces[ProvinceSlug.Mazowieckie];
+            user.Opolskie = command.Preferences.Provinces[ProvinceSlug.Opolskie];
+            user.Podkarpackie = command.Preferences.Provinces[ProvinceSlug.Podkarpackie];
+            user.Podlaskie = command.Preferences.Provinces[ProvinceSlug.Podlaskie];
+            user.Pomorskie = command.Preferences.Provinces[ProvinceSlug.Pomorskie];
+            user.Slaskie = command.Preferences.Provinces[ProvinceSlug.Slaskie];
+            user.Swietokrzyskie = command.Preferences.Provinces[ProvinceSlug.Swietokrzyskie];
+            user.WarminskoMazuskie = command.Preferences.Provinces[ProvinceSlug.WarminskoMazurskie];
+            user.Wielkopolskie = command.Preferences.Provinces[ProvinceSlug.Wielkopolskie];
+            user.Zachodniopomorskie = command.Preferences.Provinces[ProvinceSlug.Zachodniopomorskie];
 
-            user.Drogowe = command.Preferences.Categories.Drogowe;
-            user.Hydro = command.Preferences.Categories.Hydro;
-            user.Meteo = command.Preferences.Categories.Meteo;
-            user.Ogolne = command.Preferences.Categories.Ogolne;
+            user.Drogowe = command.Preferences.Categories[CategoriesInfo.Drogowe];
+            user.Hydro = command.Preferences.Categories[CategoriesInfo.Hydro];
+            user.Meteo = command.Preferences.Categories[CategoriesInfo.Meteo];
+            user.Ogolne = command.Preferences.Categories[CategoriesInfo.Ogolne];
 
             dbContext.Update(user);
             await dbContext.SaveChangesAsync();
@@ -109,22 +109,22 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             { CategoriesInfo.Hydro, u => u.Hydro },
             { CategoriesInfo.Meteo, u => u.Meteo },
             { CategoriesInfo.Ogolne, u => u.Ogolne },
-            { "dolnoslaskie" , u => u.Dolnoslaskie },
-            { "kujawsko-pomorskie" , u => u.KujawskoPomorskie },
-            { "lubelskie" , u => u.Lubelskie },
-            { "lubuskie" , u => u.Lubuskie },
-            { "lodzkie" , u => u.Lodzkie },
-            { "malopolskie" , u => u.Malopolskie },
-            { "mazowieckie" , u => u.Mazowieckie },
-            { "opolskie" , u => u.Opolskie },
-            { "podkarpackie" , u => u.Podkarpackie },
-            { "podlaskie" , u => u.Podlaskie },
-            { "pomorskie" , u => u.Pomorskie },
-            { "slaskie" , u => u.Slaskie },
-            { "swietokrzyskie", u => u.Swietokrzyskie },
-            { "warminsko-mazurskie", u => u.WarminskoMazuskie },
-            { "wielkopolskie" , u => u.Wielkopolskie },
-            { "zachodniopomorskie" , u => u.Zachodniopomorskie }
+            { ProvinceSlug.Dolnoslaskie , u => u.Dolnoslaskie },
+            { ProvinceSlug.KujawskoPomorskie, u => u.KujawskoPomorskie },
+            { ProvinceSlug.Lubelskie , u => u.Lubelskie },
+            { ProvinceSlug.Lubuskie , u => u.Lubuskie },
+            { ProvinceSlug.Lodzkie , u => u.Lodzkie },
+            { ProvinceSlug.Malopolskie , u => u.Malopolskie },
+            { ProvinceSlug.Mazowieckie , u => u.Mazowieckie },
+            { ProvinceSlug.Opolskie , u => u.Opolskie },
+            { ProvinceSlug.Podkarpackie , u => u.Podkarpackie },
+            { ProvinceSlug.Podlaskie , u => u.Podlaskie },
+            { ProvinceSlug.Pomorskie , u => u.Pomorskie },
+            { ProvinceSlug.Slaskie , u => u.Slaskie },
+            { ProvinceSlug.Swietokrzyskie, u => u.Swietokrzyskie },
+            { ProvinceSlug.WarminskoMazurskie, u => u.WarminskoMazuskie },
+            { ProvinceSlug.Wielkopolskie , u => u.Wielkopolskie },
+            { ProvinceSlug.Zachodniopomorskie , u => u.Zachodniopomorskie }
         };
     }
 }

@@ -1,4 +1,4 @@
-﻿using KomunikatyRSO.Web.Infrastructure.DTO;
+﻿using KomunikatyRSO.Shared.Dto;
 using KomunikatyRSO.Web.Infrastructure.Extensions;
 using KomunikatyRSO.Web.Infrastructure.Settings;
 using Microsoft.IdentityModel.Tokens;
@@ -39,7 +39,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             return new JwtDto
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expires = expires.ToTimestamp()
+                Expires = expires
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿using KomunikatyRSO.Web.Infrastructure.DTO;
+﻿using KomunikatyRSO.Shared.Dto;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 

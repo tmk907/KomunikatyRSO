@@ -1,9 +1,26 @@
-﻿namespace KomunikatyRSO.Shared.Commands.Notifications.Models
+﻿using KomunikatyRSO.Shared.Models;
+using System.Collections.Generic;
+
+namespace KomunikatyRSO.Shared.Commands.Notifications.Models
 {
     public class Preferences
     {
-        public Categories Categories { get; set; }
+        public Preferences()
+        {
+            Categories = new Dictionary<string, bool>();
+            foreach(var category in CategoriesInfo.AllCategories)
+            {
+                Categories[category.Slug] = false;
+            }
+            Provinces = new Dictionary<string, bool>();
+            foreach(var province in ProvincesInfo.AllProvinces)
+            {
+                Provinces[province.Slug] = false;
+            }
+        }
 
-        public Provinces Provinces { get; set; }   
+        public Dictionary<string, bool> Categories { get; set; }
+
+        public Dictionary<string,bool> Provinces { get; set; }   
     }
 }
