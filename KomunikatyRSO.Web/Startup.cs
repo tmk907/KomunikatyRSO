@@ -93,6 +93,7 @@ namespace KomunikatyRSO.Web
             }
             else
             {
+                app.UseHttpsRedirection();
                 app.UseHsts();
             }
 
@@ -100,7 +101,7 @@ namespace KomunikatyRSO.Web
 
             app.UseAuthentication();
 
-            app.UseHttpsRedirection();
+            
             app.UseMvc();
         }
     }

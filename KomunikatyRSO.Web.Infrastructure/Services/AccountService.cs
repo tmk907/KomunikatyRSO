@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace KomunikatyRSO.Web.Infrastructure.Services
 {
@@ -29,7 +30,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
 
         public async Task<bool> IsTokenValid(Guid userId, string token)
         {
-            var user = await dbContext.Users.FindAsync(userId);
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
             if (user != null)
             {
                 if (user.Token == token)
@@ -43,7 +44,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
         public async Task<bool> AreCredentialsValid(Guid userId, string password)
         {
             var passwordHash = encrypter.GetHash(password);
-            var user = await dbContext.Users.FindAsync(userId);
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
             if (user!= null)
             {
                 if (user.PasswordHash == passwordHash)

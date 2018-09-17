@@ -4,7 +4,14 @@ namespace KomunikatyRSO.UWP.Shared.Services
 {
     public class UrlBuilder
     {
-        public readonly string BaseUrl = "https://testrsoapi2.devrso.pl";
+        private string BaseUrl = "https://testrsoapi2.devrso.pl";
+
+        public UrlBuilder()
+        {
+#if DEBUG
+            BaseUrl = "http://localhost:50958";
+#endif
+        }
 
         public string Register()
         {

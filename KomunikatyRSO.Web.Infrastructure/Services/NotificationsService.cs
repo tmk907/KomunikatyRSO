@@ -23,7 +23,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
 
         public async Task UpdatePushChannelAsync(Guid userId, string channel)
         {
-            var user = await dbContext.Users.FindAsync(userId);
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
             user.PushChannel = channel;
             dbContext.Update(user);
             await dbContext.SaveChangesAsync();
@@ -31,7 +31,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
 
         public async Task UpdatePrefrencesAsync(UpdatePreferences command)
         {
-            var user = await dbContext.Users.FindAsync(command.UserId);
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.UserId == command.UserId);
 
             if (user.ModificationDate > command.ModificationDate) return;
 

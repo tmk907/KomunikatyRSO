@@ -10,9 +10,17 @@ namespace KomunikatyRSO.UWP.Shared.Services
     {
         private UrlBuilder urlBuilder;
 
+        private string authToken;
+
         public PushNotificationsClient()
         {
             urlBuilder = new UrlBuilder();
+            authToken = "";
+        }
+
+        public void SetAuthToken(string token)
+        {
+            authToken = token;
         }
 
         public async Task<bool> RegisterAsync(Register command)
@@ -32,14 +40,14 @@ namespace KomunikatyRSO.UWP.Shared.Services
         public async Task<bool> UpdatePreferencesAsync(UpdatePreferences command)
         {
             var url = urlBuilder.UpdatePreferences();
-            var response = await url.PutJsonAsync(command);
+            var response = await url.WithOAuthBearerToken(authToken).PutJsonAsync(command);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdatePushChannelAsync(UpdatePushChannel command)
         {
             var url = urlBuilder.UpdatePushChannel();
-            var response = await url.PutJsonAsync(command);
+            var response = await url.WithOAuthBearerToken(authToken).PutJsonAsync(command);
             return response.IsSuccessStatusCode;
         }
     }

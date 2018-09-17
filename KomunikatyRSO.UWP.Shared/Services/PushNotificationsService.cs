@@ -14,6 +14,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
         {
             client = new PushNotificationsClient();
             secureStorage = new SecureStorage();
+            client.SetAuthToken(secureStorage.Token);
         }
 
         private readonly PushNotificationsClient client;
@@ -59,6 +60,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
                     var jwtToken = await client.RequestTokenAsync(command);
                     secureStorage.Token = jwtToken.Token;
                     secureStorage.TokenExpiration = jwtToken.Expires;
+                    client.SetAuthToken(jwtToken.Token);
                 }
                 catch (Exception ex)
                 {
@@ -114,7 +116,6 @@ namespace KomunikatyRSO.UWP.Shared.Services
             await RequestTokenIfNeededAsync();
 
             var command = new UpdatePushChannel();
-            command.Token = secureStorage.Token;
             command.UserId = secureStorage.UserId;
             command.PushChannel = newPushChannel;
 
@@ -123,7 +124,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
                 bool updated = await client.UpdatePushChannelAsync(command);
                 AppSettings.Instance.IsChannelUpdated = updated;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 AppSettings.Instance.IsChannelUpdated = false;
             }
@@ -134,7 +135,6 @@ namespace KomunikatyRSO.UWP.Shared.Services
             await RequestTokenIfNeededAsync();
 
             var command = new UpdatePreferences();
-            command.Token = secureStorage.Token;
             command.UserId = secureStorage.UserId;
             foreach (var province in AppSettings.Instance.SelectedProvinces.Where(p => p.IsSelected))
             {
@@ -149,7 +149,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
                 bool updated = await client.UpdatePreferencesAsync(command);
                 AppSettings.Instance.IsPreferencesUpdated = updated;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 AppSettings.Instance.IsPreferencesUpdated = false;
             }
