@@ -44,7 +44,7 @@ namespace KomunikatyRSOUWP.ViewModels
             }
             if (AppSettings.Instance.SelectedProvinces.Where(p => p.IsSelected).Count() > 0) sb.Remove(sb.Length - 2, 2);
             SelectedProvinces = sb.ToString();
-            UserId = AppSettings.Instance.UserId;
+            UserId = "";
             Other = AppSettings.Instance.IsChannelUpdated ? "" : "c:false ";
             Other += AppSettings.Instance.IsPreferencesUpdated ? "" : "p:false ";
             Other += string.Format("{0}.{1}", version.Major, version.Minor) == AppSettings.Instance.PreviousAppVersion ? "" : AppSettings.Instance.PreviousAppVersion;

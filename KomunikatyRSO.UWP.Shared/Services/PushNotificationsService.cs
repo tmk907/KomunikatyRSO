@@ -1,4 +1,5 @@
-﻿using KomunikatyRSO.Shared.Commands.Notifications;
+﻿using KomunikatyRSO.Shared.Commands.Accounts;
+using KomunikatyRSO.Shared.Commands.Notifications;
 using KomunikatyRSO.UWP.Shared.Settings;
 using System;
 using System.Linq;
@@ -17,6 +18,58 @@ namespace KomunikatyRSO.UWP.Shared.Services
 
         private readonly PushNotificationsClient client;
         private readonly ISecureStorage secureStorage;
+
+        public bool IsRegistered => secureStorage.UserId != Guid.Empty;
+
+        public async Task RegisterAsync()
+        {
+            var userId = Guid.NewGuid();
+            string password = GeneratePassword();
+            var command = new Register()
+            {
+                Password = password,
+                UserId = userId,
+            };
+            try
+            {
+                var result = await client.RegisterAsync(command);
+                if (result)
+                {
+                    secureStorage.UserId = userId;
+                    secureStorage.Password = password;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public async Task RequestTokenIfNeededAsync()
+        {
+            if (String.IsNullOrEmpty(secureStorage.Token) || secureStorage.TokenExpiration < DateTime.Now)
+            {
+                var command = new CreateToken()
+                {
+                    Password = secureStorage.Password,
+                    UserId = secureStorage.UserId
+                };
+                try
+                {
+                    var jwtToken = await client.RequestTokenAsync(command);
+                    secureStorage.Token = jwtToken.Token;
+                    secureStorage.TokenExpiration = jwtToken.Expires;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+        private string GeneratePassword()
+        {
+            return "password";
+        }
 
         public async Task UpdateUserPreferencesIfNeededAsync()
         {
@@ -58,6 +111,8 @@ namespace KomunikatyRSO.UWP.Shared.Services
         {
             if (newPushChannel == null) return;
 
+            await RequestTokenIfNeededAsync();
+
             var command = new UpdatePushChannel();
             command.Token = secureStorage.Token;
             command.UserId = secureStorage.UserId;
@@ -76,6 +131,8 @@ namespace KomunikatyRSO.UWP.Shared.Services
 
         public async Task UpdateUserPreferencesAsync()
         {
+            await RequestTokenIfNeededAsync();
+
             var command = new UpdatePreferences();
             command.Token = secureStorage.Token;
             command.UserId = secureStorage.UserId;

@@ -10,6 +10,13 @@ namespace KomunikatyRSO.UWP.Shared.Settings
         public static async Task SendSettingsToServerAsync()
         {
             var pns = new PushNotificationsService();
+
+            if (!pns.IsRegistered)
+            {
+                await pns.RegisterAsync();
+                await pns.RequestTokenIfNeededAsync();
+            }
+
             await pns.UpdatePushChannelIfNeeded();
             await pns.UpdateUserPreferencesIfNeededAsync();
         }
@@ -22,7 +29,6 @@ namespace KomunikatyRSO.UWP.Shared.Settings
 
             if (prevAppVersion == "")
             {
-                AppSettings.Instance.UserId = "-1";
                 AppSettings.Instance.IsChannelUpdated = false;
                 AppSettings.Instance.IsPreferencesUpdated = false;
                 AppSettings.Instance.NotificationChannelUri = null;

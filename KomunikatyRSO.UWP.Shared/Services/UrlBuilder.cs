@@ -4,7 +4,7 @@ namespace KomunikatyRSO.UWP.Shared.Services
 {
     public class UrlBuilder
     {
-        public readonly string BaseUrl = "https://api.fanburst.com";
+        public readonly string BaseUrl = "https://testrsoapi2.devrso.pl";
 
         public string Register()
         {

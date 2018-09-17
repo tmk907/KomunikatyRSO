@@ -111,9 +111,7 @@
     <Compile Include="Models\SelectionCategory.cs" />
     <Compile Include="Models\SelectionProvince.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AuthorizationService.cs" />
     <Compile Include="Settings\ISecureStorage.cs" />
-    <Compile Include="Services\PushClient.cs" />
     <Compile Include="Services\PushNotificationsClient.cs" />
     <Compile Include="Services\PushNotificationsService.cs" />
     <Compile Include="Settings\SecureStorage.cs" />

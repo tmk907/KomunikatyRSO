@@ -82,12 +82,6 @@ namespace KomunikatyRSO.UWP.Shared.Settings
             set { helper.Save(nameof(IsPreferencesUpdated), value); }
         }
 
-        public string UserId
-        {
-            get { return helper.Read<string>(nameof(UserId), "-1"); }
-            set { helper.Save(nameof(UserId), value); }
-        }
-
         public string PreviousAppVersion
         {
             get { return helper.Read<string>(nameof(PreviousAppVersion), ""); }
