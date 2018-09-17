@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./KomunikatyRSO.Web/*.csproj ./KomunikatyRSO.Web/
 COPY ./KomunikatyRSO.Web.Infrastructure/*.csproj ./KomunikatyRSO.Web.Infrastructure/
 COPY ./KomunikatyRSO.Shared/*.csproj ./KomunikatyRSO.Shared/
-RUN dotnet restore
+RUN dotnet restore "./KomunikatyRSO.Web/KomunikatyRSO.Web.csproj"
 
 COPY ./KomunikatyRSO.Web/. ./KomunikatyRSO.Web/
 COPY ./KomunikatyRSO.Web.Infrastructure/. ./KomunikatyRSO.Web.Infrastructure/
