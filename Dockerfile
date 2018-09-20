@@ -11,7 +11,7 @@ RUN dotnet restore "./KomunikatyRSO.Web/KomunikatyRSO.Web.csproj"
 COPY ./KomunikatyRSO.Web/. ./KomunikatyRSO.Web/
 COPY ./KomunikatyRSO.Web.Infrastructure/. ./KomunikatyRSO.Web.Infrastructure/
 COPY ./KomunikatyRSO.Shared/. ./KomunikatyRSO.Shared/
-COPY .nginx.conf.sigil .nginx.conf.sigil
+COPY .nginx.conf.sigil .
 
 #Build database
 WORKDIR /app/KomunikatyRSO.Web
