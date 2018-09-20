@@ -37,5 +37,11 @@ namespace KomunikatyRSO.Web.Controllers
             var jwt = cache.GetJwt(command.UserId);
             return Json(jwt);
         }
+
+        [HttpPost("testjson")]
+        public async Task<IActionResult> Test([FromBody]Register command)
+        {
+            return Ok();
+        }
     }
 }
