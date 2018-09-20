@@ -28,4 +28,5 @@ ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
 COPY --from=build /app/KomunikatyRSO.Web/komunikatyrso-test.db ./
 COPY --from=build /app/KomunikatyRSO.Web/out ./
+COPY --from=build /app/nginx.conf.sigil ./
 ENTRYPOINT ["dotnet", "KomunikatyRSO.Web.dll"]
