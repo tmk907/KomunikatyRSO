@@ -44,7 +44,7 @@ namespace KomunikatyRSO.Web.Controllers
             return Ok();
         }
 
-        [HttpPost("testjson")]
+        [HttpPost("testjson2")]
         public async Task<IActionResult> Test2([FromBody]Register command)
         {
             return Ok(command.UserId);
