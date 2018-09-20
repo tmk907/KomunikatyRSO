@@ -21,5 +21,6 @@ FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 ENV ASPNETCORE_URLS http://*:5000
 ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
+COPY --from=build /app/KomunikatyRSO.Web/komunikatyrso-test.db ./
 COPY --from=build /app/KomunikatyRSO.Web/out ./
 ENTRYPOINT ["dotnet", "KomunikatyRSO.Web.dll"]
