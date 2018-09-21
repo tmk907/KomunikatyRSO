@@ -4,22 +4,19 @@ using KomunikatyRSO.Shared.Commands;
 using KomunikatyRSO.Shared.Commands.Accounts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using KomunikatyRSO.Web.Infrastructure.Handlers.Accounts;
 
 namespace KomunikatyRSO.Web.Controllers
 {
     public class AccountController : ApiControllerBase
     {
         private readonly IMemoryCache cache;
+        private readonly ICommandHandler<ShowAccountList> al;
 
-        public AccountController(ICommandDispatcher commandDispatcher, IMemoryCache cache) : base(commandDispatcher)
+        public AccountController(ICommandDispatcher commandDispatcher, IMemoryCache cache, ICommandHandler<ShowAccountList> al) : base(commandDispatcher)
         {
             this.cache = cache;
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok();
+            this.al = al;
         }
 
         [HttpPost]
@@ -38,16 +35,11 @@ namespace KomunikatyRSO.Web.Controllers
             return Json(jwt);
         }
 
-        [HttpPost("testjson")]
-        public async Task<IActionResult> Test([FromBody]Register command)
+        [HttpGet("all")]
+        public async Task<IActionResult> List()
         {
-            return Ok();
-        }
-
-        [HttpPost("testjson2")]
-        public async Task<IActionResult> Test2([FromBody]Register command)
-        {
-            return Ok(command.UserId);
+            var list = await ((ShowAccountListHandler)al).HandleAsync2(new ShowAccountList());
+            return new JsonResult(list);
         }
     }
 }

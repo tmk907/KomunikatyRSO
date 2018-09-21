@@ -54,5 +54,10 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             }
             return false;
         }
+
+        public async Task<List<string>> GetUsers()
+        {
+            return await dbContext.Users.Select(s=>s.UserId.ToString()).ToListAsync();
+        }
     }
 }
