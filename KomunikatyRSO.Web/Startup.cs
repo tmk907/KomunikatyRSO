@@ -76,6 +76,7 @@ namespace KomunikatyRSO.Web
 
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 
+
             services.AddScoped<ICommandHandler<Register>, RegisterHandler>();
             services.AddScoped<ICommandHandler<CreateToken>, CreateTokenHandler>();
             services.AddScoped<ICommandHandler<UpdatePreferences>, UpdatePreferencesHandler>();
