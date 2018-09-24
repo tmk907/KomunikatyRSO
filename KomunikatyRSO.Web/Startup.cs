@@ -76,14 +76,13 @@ namespace KomunikatyRSO.Web
 
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 
-
             services.AddScoped<ICommandHandler<Register>, RegisterHandler>();
             services.AddScoped<ICommandHandler<CreateToken>, CreateTokenHandler>();
             services.AddScoped<ICommandHandler<UpdatePreferences>, UpdatePreferencesHandler>();
             services.AddScoped<ICommandHandler<UpdatePushChannel>, UpdatePushChannelHandler>();
             services.AddScoped<ICommandHandler<ShowAccountList>, ShowAccountListHandler>();
 
-            //services.AddHostedService<TimedHostedService>();
+            services.AddHostedService<TimedHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

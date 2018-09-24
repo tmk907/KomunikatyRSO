@@ -1,52 +1,55 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace KomunikatyRSO.Web.Infrastructure.Services
 {
-    public class TimedHostedService : IHostedService, IDisposable
+    public class TimedHostedService : BackgroundService
     {
-        private Timer _timer;
-
-        public IServiceProvider Services { get; }
-
         public TimedHostedService(IServiceProvider services)
         {
-            Services = services;
+            this.services = services;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromMinutes(2));
+        private IServiceProvider services { get; }
 
-            return Task.CompletedTask;
-        }
-
-        private void DoWork(object state)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using (var scope = Services.CreateScope())
+            Console.WriteLine("MyServiceA is starting.");
+
+            stoppingToken.Register(() => Console.WriteLine("MyServiceA is stopping."));
+
+            TimeSpan delay = TimeSpan.FromMinutes(10);
+            DateTime lastUpdate = DateTime.Now;
+
+            while (!stoppingToken.IsCancellationRequested)
             {
-                var newsService = scope.ServiceProvider.GetRequiredService<NewsService>();
-                var list = newsService.GetNewNewses().Result;
+                Console.WriteLine("MyServiceA is doing background work.");
 
+                using (var scope = services.CreateScope())
+                {
+                    var newsService = scope.ServiceProvider.GetRequiredService<NewsService>();
+                    var lastestNews = await newsService.GetLatestNews(lastUpdate);
+                    lastUpdate = DateTime.Now;
+
+                    var notificationsService = scope.ServiceProvider.GetRequiredService<NotificationsService>();
+                    var pushNotificationSender = scope.ServiceProvider.GetRequiredService<IPushNotificationSender>();
+                    foreach (var group in lastestNews)
+                    {
+                        var urls = await notificationsService.GetSubsciberUrlsAsync(group.CategorySlug, group.ProvinceSlug);
+                        foreach(var news in group.Newses)
+                        {
+                            await pushNotificationSender.SendPushNotifications(urls, news);
+                        }
+                    }
+                }
+
+                await Task.Delay(delay, stoppingToken);
             }
-        }
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _timer?.Change(Timeout.Infinite, 0);
-
-            return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            _timer?.Dispose();
+            Console.WriteLine("MyServiceA background task is stopping.");
         }
     }
 }

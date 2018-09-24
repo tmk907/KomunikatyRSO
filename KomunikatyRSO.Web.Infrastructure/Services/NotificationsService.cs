@@ -61,7 +61,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<string>> GetSubsciberUrls(string category, string province)
+        public async Task<List<string>> GetSubsciberUrlsAsync(string category, string province)
         {
             return await dbContext.Users
                 .Where(map[category])

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KomunikatyRSO.Web.Infrastructure.Models;
 
 namespace KomunikatyRSO.Web.Infrastructure.Services
 {
@@ -17,23 +18,24 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             client = new RSOClient();
         }
 
-        public async Task<List<NewsDto>> GetNewNewses()
+        public async Task<List<GroupedNews>> GetLatestNews(DateTime lastUpdate)
         {
-            DateTime lastUpdate = DateTime.Now.Subtract(TimeSpan.FromDays(7));
-
-            var latestNews = new List<NewsDto>(); 
+            var latestNews = new List<GroupedNews>();
 
             foreach(var category in CategoriesInfo.AllCategories)
             {
                 foreach(var province in ProvincesInfo.AllProvinces)
                 {
+                    var groupedNews = new GroupedNews(category.Slug, province.Slug);
                     var newses = await client.GetNewsesAsync(province.Slug, category.Slug);
-                    foreach(var news in newses.Where(n=>n.UpdatedAt.ToDateTime() > lastUpdate))
+                    foreach(var news in newses.Where(n => n.UpdatedAt.ToDateTime() > lastUpdate))
                     {
-                        latestNews.Add(
+                        groupedNews.Newses.Add
+                        (
                             new NewsDto($"woj. {province.Name}", news.Title, news.Id, province.Slug, category.Slug)
                         );
                     }
+                    latestNews.Add(groupedNews);
                 }
             }
 
