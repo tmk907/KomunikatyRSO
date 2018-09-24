@@ -24,7 +24,7 @@ RUN dotnet publish "./KomunikatyRSO.Web/KomunikatyRSO.Web.csproj" -c Release -o 
 # Build runtime image
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 ENV ASPNETCORE_URLS http://*:5000
-ENV ASPNETCORE_ENVIRONMENT=Development
+#ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
 #COPY --from=build /app/KomunikatyRSO.Web/komunikatyrso-test.db ./
 COPY --from=build /app/KomunikatyRSO.Web/out ./
