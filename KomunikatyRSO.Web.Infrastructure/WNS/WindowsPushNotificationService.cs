@@ -4,6 +4,7 @@ using KomunikatyRSO.Web.Infrastructure.Services;
 using KomunikatyRSO.Web.Infrastructure.Settings;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace KomunikatyRSO.Web.Infrastructure.WNS
@@ -22,6 +23,7 @@ namespace KomunikatyRSO.Web.Infrastructure.WNS
         public async Task SendPushNotifications(List<string> urls, NewsDto news)
         {
             string toast = BuildToast(news);
+            byte[] bytes = Encoding.UTF8.GetBytes(toast);
             var accessToken = wnsAuthentication.GetAccessToken();
             foreach (var url in urls)
             {
@@ -29,9 +31,9 @@ namespace KomunikatyRSO.Web.Infrastructure.WNS
                 {
                     var response = await url.WithOAuthBearerToken(accessToken)
                             .WithHeader("Content-Type", "text/xml")
-                            .WithHeader("Content-Length", toast.Length)
+                            .WithHeader("Content-Length", bytes.Length)
                             .WithHeader("X-WNS-Type", "wns/toast")
-                            .SendAsync(HttpMethod.Post);
+                            .PostStringAsync(toast);
                 }
                 catch (FlurlHttpException ex)
                 {
@@ -43,7 +45,7 @@ namespace KomunikatyRSO.Web.Infrastructure.WNS
                             .WithHeader("Content-Type", "text/xml")
                             .WithHeader("Content-Length", toast.Length)
                             .WithHeader("X-WNS-Type", "wns/toast")
-                            .SendAsync(HttpMethod.Post);
+                            .PostStringAsync(toast);
                     }
                     else if (ex.Call.HttpStatus == System.Net.HttpStatusCode.NotAcceptable)
                     {
@@ -53,7 +55,7 @@ namespace KomunikatyRSO.Web.Infrastructure.WNS
                             .WithHeader("Content-Type", "text/xml")
                             .WithHeader("Content-Length", toast.Length)
                             .WithHeader("X-WNS-Type", "wns/toast")
-                            .SendAsync(HttpMethod.Post);
+                            .PostStringAsync(toast);
                     }
                 }
             }
@@ -71,11 +73,11 @@ namespace KomunikatyRSO.Web.Infrastructure.WNS
                     $"<toast launch=\"{id}\">"+
                         "<visual>"+
                             "<binding template=\"ToastGeneric\">"+
-                                "<text>{ header}</text>"+
-                                "< text hint-wrap=\"true\">{body}</text>"+
-                            "<//binding>"+
-                        "<//visual>"+
-                    "<//toast>";
+                                $"<text>{header}</text>"+
+                                $"<text>{body}</text>"+
+                            "</binding>"+
+                        @"</visual>"+
+                    @"</toast>";
 
         }
     }
