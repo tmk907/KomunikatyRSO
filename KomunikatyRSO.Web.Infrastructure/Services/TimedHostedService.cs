@@ -26,7 +26,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             stoppingToken.Register(() => logger.LogInformation("TimedHostedService is stopping."));
 
             TimeSpan delay = TimeSpan.FromMinutes(10);
-            DateTime lastUpdate = DateTime.Now - TimeSpan.FromDays(1);
+            DateTime lastUpdate = DateTime.Now;
 
             while (!stoppingToken.IsCancellationRequested)
             {
