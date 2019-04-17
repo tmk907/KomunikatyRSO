@@ -1,10 +1,10 @@
-## Komunikaty RSO
+Ôªø## Komunikaty RSO
 
 <a href='//www.microsoft.com/store/apps/9nblggh6jdhg?ocid=badge'>
 <img width='300' height='100'  src='https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png' 
 alt='English badge'/></a>
 
-Prosta aplikacja przedstawiajπca aktualne komunikaty Regionalnego Systemu Ostrzegania. Aplikacja umoøliwia rÛwnieø odbiÛr powiadomieÒ push o nowych komunikatach dla wybranych wojewÛdztw i kategorii.
+Prosta aplikacja przedstawiajƒÖca aktualne komunikaty Regionalnego Systemu Ostrzegania. Aplikacja umo≈ºliwia r√≥wnie≈º odbi√≥r powiadomie≈Ñ push o nowych komunikatach dla wybranych wojew√≥dztw i kategorii.
 
 <p>
 <img height='394' src='https://store-images.s-microsoft.com/image/apps.13572.13510798886754279.db366648-8fc3-469c-bb1f-528ea7a6228d.db6a38ad-01b0-4483-a3ad-4b5d74b8e808?w=443&h=788&q=60' />
