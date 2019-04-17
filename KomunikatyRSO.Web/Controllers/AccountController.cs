@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using KomunikatyRSO.Web.Infrastructure.Handlers.Accounts;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace KomunikatyRSO.Web.Controllers
 {
@@ -45,6 +46,25 @@ namespace KomunikatyRSO.Web.Controllers
         {
             var list = await ((ShowAccountListHandler)al).HandleAsync2(new ShowAccountList());
             return new JsonResult(list);
+        }
+
+        [HttpGet("path")]
+        public async Task<IActionResult> Path()
+        {
+            string startupDirectory = System.IO.Directory.GetCurrentDirectory();
+            return new JsonResult(startupDirectory);
+        }
+
+        [HttpGet("time")]
+        public async Task<IActionResult> Time()
+        {
+            return new JsonResult(DateTime.Now);
+        }
+
+        [HttpGet("timeUtc")]
+        public async Task<IActionResult> TimeUtc()
+        {
+            return new JsonResult(DateTime.UtcNow);
         }
     }
 }

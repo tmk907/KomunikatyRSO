@@ -1,9 +1,0 @@
-2018-09-25 14:55:27.623 +02:00 [INF] TimedHostedService is starting.
-2018-09-25 14:55:34.505 +02:00 [INF] Looking for news.
-2018-09-25 14:55:37.890 +02:00 [INF] Route matched with {action = "Get", controller = "Root"}. Executing action KomunikatyRSO.Web.Controllers.RootController.Get (KomunikatyRSO.Web)
-2018-09-25 14:55:37.920 +02:00 [INF] Executing action method KomunikatyRSO.Web.Controllers.RootController.Get (KomunikatyRSO.Web) - Validation state: "Valid"
-2018-09-25 14:55:37.932 +02:00 [INF] Executed action method KomunikatyRSO.Web.Controllers.RootController.Get (KomunikatyRSO.Web), returned result Microsoft.AspNetCore.Mvc.OkResult in 0.3559ms.
-2018-09-25 14:55:37.945 +02:00 [INF] Executing HttpStatusCodeResult, setting HTTP status code 200
-2018-09-25 14:55:37.956 +02:00 [INF] Executed action KomunikatyRSO.Web.Controllers.RootController.Get (KomunikatyRSO.Web) in 51.025000000000006ms
-2018-09-25 14:56:05.493 +02:00 [INF] Found 80 news.
-2018-09-25 14:56:06.454 +02:00 [INF] Finished sending push notifications.

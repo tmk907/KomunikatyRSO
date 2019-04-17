@@ -18,17 +18,18 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             client = new RSOClient();
         }
 
-        public async Task<List<GroupedNews>> GetLatestNews(DateTime lastUpdate)
+        public async Task<List<GroupedNews>> GetLatestNews(DateTime lastUpdateUtc)
         {
             var latestNews = new List<GroupedNews>();
 
-            foreach(var category in CategoriesInfo.AllCategories)
+            for (int i = 0; i < CategoriesInfo.AllCategories.Count; i++)
             {
-                foreach(var province in ProvincesInfo.AllProvinces)
+                CategoryInfo category = CategoriesInfo.AllCategories[i];
+                foreach (var province in ProvincesInfo.AllProvinces)
                 {
                     var groupedNews = new GroupedNews(category.Slug, province.Slug);
                     var newses = await client.GetNewsesAsync(province.Slug, category.Slug);
-                    foreach(var news in newses.Where(n => n.UpdatedAt.ToDateTime() > lastUpdate))
+                    foreach(var news in newses.Where(n => IsNewer(n.UpdatedAt.ToDateTime(), lastUpdateUtc)))
                     {
                         groupedNews.Newses.Add
                         (
@@ -40,6 +41,13 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             }
 
             return latestNews;
+        }
+
+        private readonly TimeSpan server = TimeSpan.FromHours(2);
+
+        private bool IsNewer(DateTime updatedAt, DateTime lastUpdateUtc)
+        {
+            return updatedAt > (lastUpdateUtc + server);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
             stoppingToken.Register(() => logger.LogInformation("TimedHostedService is stopping."));
 
             TimeSpan delay = TimeSpan.FromMinutes(10);
-            DateTime lastUpdate = DateTime.Now;
+            DateTime lastUpdateUtc = DateTime.UtcNow;
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -34,8 +34,8 @@ namespace KomunikatyRSO.Web.Infrastructure.Services
                 {
                     var newsService = scope.ServiceProvider.GetRequiredService<NewsService>();
                     logger.LogInformation("Looking for news.");
-                    var lastestNews = await newsService.GetLatestNews(lastUpdate);
-                    lastUpdate = DateTime.Now;
+                    var lastestNews = await newsService.GetLatestNews(lastUpdateUtc);
+                    lastUpdateUtc = DateTime.Now;
                     logger.LogInformation("Found {NewsCount} news.", lastestNews.Count);
                     var notificationsService = scope.ServiceProvider.GetRequiredService<NotificationsService>();
                     var pushNotificationSender = scope.ServiceProvider.GetRequiredService<IPushNotificationSender>();

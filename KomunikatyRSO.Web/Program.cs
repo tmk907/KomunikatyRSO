@@ -15,7 +15,11 @@ namespace KomunikatyRSO.Web
     {
         public static void Main(string[] args)
         {
+            //string startupDirectory = System.IO.Directory.GetCurrentDirectory(); // Ensure it stays the same
+            //NLog.LayoutRenderers.LayoutRenderer.Register("startupdir", (logEvent) => startupDirectory);
+
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            
             try
             {
                 logger.Debug("init main");
@@ -39,7 +43,7 @@ namespace KomunikatyRSO.Web
                 .UseStartup<Startup>()
                 .ConfigureLogging(logging =>
                 {
-                    logging.ClearProviders();
+                    //logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .UseNLog();  // NLog: setup NLog for Dependency injection;
